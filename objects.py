@@ -13,10 +13,3 @@ class View(ft.View):
 
     def set(self,page):
         page.views.append(self)
-
-class ViewContainer(ft.Container):
-    def __init__(self,content):
-        super().__init__()
-        self.width = appWidth
-        self.height = appHeight
-        self.content = content

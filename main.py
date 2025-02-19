@@ -1,9 +1,10 @@
 import flet as ft
 from objects import appWidth,appHeight,baseColor,View
+from views.home import HomeContent
 
 def main(page: ft.Page):
     # CONFIG
-    page.title = "Student ID Card"
+    page.title = "Music Player"
     page.window.width = appWidth
     page.window.height = appHeight
     page.bgcolor = baseColor
@@ -14,7 +15,7 @@ def main(page: ft.Page):
         match(page.route):
             case _:
                 pass
-            #     View("/home",HomeContent()).set(page)
+                View("/home",HomeContent()).set(page)
         
         page.update()
     
