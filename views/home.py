@@ -5,7 +5,7 @@ def HomeContent():
     content = ft.Container(width=appWidth,height=appHeight,bgcolor=baseColor,
         content=ft.Column(
             controls=[
-                ft.Text("Home")
+                ft.Text("Music Player",size=30,color="black",weight="bold")
             ]
         )
     )
