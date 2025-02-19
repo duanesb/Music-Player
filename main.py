@@ -7,7 +7,6 @@ def main(page: ft.Page):
     page.title = "Music Player"
     page.window.width = appWidth
     page.window.height = appHeight
-    page.bgcolor = baseColor
 
     # ROUTING
     def route_change(route):
