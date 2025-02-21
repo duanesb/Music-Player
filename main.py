@@ -13,7 +13,6 @@ def main(page: ft.Page):
         page.views.clear()
         match(page.route):
             case _:
-                pass
                 View("/home",HomeContent()).set(page)
         
         page.update()
