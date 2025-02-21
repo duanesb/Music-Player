@@ -1,5 +1,5 @@
 import flet as ft
-from objects import appWidth,appHeight,baseColor,ElevatedButton
+from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField
 from pytubefix import YouTube
 import os
 import subprocess
@@ -29,6 +29,7 @@ def downloadMp3(url, name):
 
 
 def HomeContent():
+
     linkTextField = ft.TextField(label="Enter Youtube Link")
     nameTextField = ft.TextField(label="Enter Name for File")
     content = ft.Container(width=appWidth,height=appHeight,
@@ -36,8 +37,9 @@ def HomeContent():
             controls=[
                 ft.Text("Music Player",size=30,weight="bold"),
                 ft.Text("Save a Song",size=20,weight="bold"),
-                linkTextField,
-                nameTextField,
+                # linkTextField,
+                # nameTextField,
+                TextField("test",None),
                 ElevatedButton("Save Song",None),
                 ft.Text("Create Playlist",size=20,weight="bold"),
             ]
