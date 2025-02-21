@@ -13,3 +13,33 @@ class View(ft.View):
 
     def set(self,page):
         page.views.append(self)
+
+class ElevatedButton(ft.ElevatedButton):
+    def __init__(self,text,function):
+        super().__init__()
+        self.height=40
+        self.width=100
+        self.text=text
+        self.color="black"
+        self.style=ft.ButtonStyle(
+            text_style=ft.TextStyle(size=15,weight="bold"),
+            bgcolor="#808080",
+            shape=ft.RoundedRectangleBorder(radius=5),
+            side=ft.BorderSide(width=3,color="#575757")
+        )
+        self.on_click = function
+
+class TextField(ft.TextField):
+    def __init__(self,text,function):
+        super().__init__()
+        self.height=40
+        self.width=100
+        self.text=text
+        self.color="black"
+        self.style=ft.ButtonStyle(
+            text_style=ft.TextStyle(size=15,weight="bold"),
+            bgcolor="#808080",
+            shape=ft.RoundedRectangleBorder(radius=5),
+            side=ft.BorderSide(width=3,color="#575757")
+        )
+        self.on_click = function

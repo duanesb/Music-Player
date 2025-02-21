@@ -1,6 +1,10 @@
 import flet as ft
 from objects import appWidth,appHeight,baseColor,View
 from views.home import HomeContent
+import os
+import certifi
+
+os.environ['SSL_CERT_FILE'] = certifi.where()
 
 def main(page: ft.Page):
     # CONFIG
