@@ -28,6 +28,8 @@ def downloadMp3(url, name):
     os.remove(downloadedFile)
 
 
+# PUT FUNCTIONS HERE
+
 def HomeContent():
     linkTextField = TextField("Enter youtube link.",appWidth)
     nameTextField = TextField("Enter name for the downloaded file.",appWidth)
@@ -56,7 +58,8 @@ def HomeContent():
                                         ElevatedButton("Select Songs",120,None),
                                         ElevatedButton("Create Playlist",140,None)
                                     ],
-                                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                                    width=appWidth
                                 )
                             ]
                         )
