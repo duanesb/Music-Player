@@ -30,17 +30,16 @@ class ElevatedButton(ft.ElevatedButton):
         self.on_click = function
 
 class TextField(ft.TextField):
-    def __init__(self,text,function):
+    def __init__(self,text,width):
         super().__init__()
         self.height=40
-        self.width=appWidth-100
+        self.width=width
         self.hint_text=text
         self.hint_style= ft.TextStyle(color="black",size=15)
         self.color="black"
         self.bgcolor = "#c9c9c9"
         self.border_width = 3
         self.border_color = "#a1a1a1"
-        self.on_click = function
         self.cursor_color = "black"
 
 class NavButton(ft.ElevatedButton):
