@@ -42,7 +42,7 @@ def HomeContent():
                 ft.Divider(thickness=2,height=4),
                 linkTextField,
                 nameTextField,
-                ElevatedButton("Save Song",100,None),
+                ElevatedButton("Save Song",125,None),
                 ft.Divider(thickness=2,height=4),
                 ft.Text("Create Playlist",size=20,weight="bold"),
                 ft.Divider(thickness=2,height=4),
@@ -55,13 +55,13 @@ def HomeContent():
                                 playlistNameTextField,
                                 ft.Row(
                                     controls=[
-                                        ElevatedButton("Select Songs",120,None),
-                                        ElevatedButton("Create Playlist",140,None)
+                                        ElevatedButton("Select Songs",140,None),
+                                        ElevatedButton("Create Playlist",150,None)
                                     ],
                                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-                                    width=appWidth
                                 )
-                            ]
+                            ],
+                            height=150
                         )
                     ]
                 ),
