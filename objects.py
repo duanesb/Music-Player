@@ -15,10 +15,10 @@ class View(ft.View):
         page.views.append(self)
 
 class ElevatedButton(ft.ElevatedButton):
-    def __init__(self,text,function):
+    def __init__(self,text,width,function):
         super().__init__()
         self.height=40
-        self.width=100
+        self.width=width
         self.text=text
         self.color="black"
         self.style=ft.ButtonStyle(
