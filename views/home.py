@@ -43,14 +43,14 @@ def HomeContent():
                 ft.Divider(thickness=2,height=4),
                 linkTextField,
                 nameTextField,
-                ElevatedButton("Save Song",125,None),
+                ElevatedButton("Save Song",125, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
                 ft.Divider(thickness=2,height=4),
                 ft.Text("Create Playlist",size=20,weight="bold"),
                 ft.Divider(thickness=2,height=4),
                 ft.Row(
                     width=appWidth,
                     controls=[
-                        playlistImage(),
+                        playlistImage(None),
                         ft.Column(
                             controls=[
                                 playlistNameTextField,
