@@ -34,6 +34,7 @@ def HomeContent():
     linkTextField = TextField("Enter youtube link.",appWidth)
     nameTextField = TextField("Enter name for the downloaded file.",appWidth)
     playlistNameTextField = TextField("Playlist name",appWidth-200)
+    playlistText = ft.Text("Songs: ",size=12)
     content = ft.Container(width=appWidth,height=appHeight,
         content=ft.Column(
             controls=[
@@ -59,7 +60,8 @@ def HomeContent():
                                         ElevatedButton("Create Playlist",150,None)
                                     ],
                                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-                                )
+                                ),
+                                playlistText
                             ],
                             height=150
                         )
