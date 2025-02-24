@@ -29,8 +29,8 @@ def downloadMp3(url, name):
 
 
 def HomeContent():
-    linkTextField = TextField("Enter youtube link.",appWidth-100)
-    nameTextField = TextField("Enter name for the downloaded file.",appWidth-100)
+    linkTextField = TextField("Enter youtube link.",appWidth)
+    nameTextField = TextField("Enter name for the downloaded file.",appWidth)
     playlistNameTextField = TextField("Playlist name",appWidth-200)
     content = ft.Container(width=appWidth,height=appHeight,
         content=ft.Column(
