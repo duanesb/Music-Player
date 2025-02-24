@@ -6,18 +6,26 @@ import certifi
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
+def filePickerResult(e:ft.FilePickerResultEvent):
+    if e.files:
+        path = e.files[0].path
+
 def main(page: ft.Page):
     # CONFIG
     page.title = "Music Player"
     page.window.width = appWidth
     page.window.height = appHeight
 
+    # FILE PICKER
+    filePicker = ft.FilePicker(on_result=filePickerResult)
+    page.overlay.append(filePicker)
+
     # ROUTING
     def route_change(route):
         page.views.clear()
         match(page.route):
             case _:
-                View("/home",HomeContent()).set(page)
+                View("/home",HomeContent(filePicker)).set(page)
         
         page.update()
     

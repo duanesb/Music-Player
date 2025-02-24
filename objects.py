@@ -56,11 +56,3 @@ class NavButton(ft.ElevatedButton):
             side=ft.BorderSide(width=3,color="#bd952a")
         )
         self.on_click = function
-
-class playlistImage(ft.Container):
-    def __init__(self,function):
-        super().__init__(content=ft.Image("upload.png"))
-        self.width=150
-        self.height=150
-        self.bgcolor="white"
-        self.on_click=function

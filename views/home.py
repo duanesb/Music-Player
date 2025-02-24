@@ -1,5 +1,5 @@
 import flet as ft
-from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField,NavButton,playlistImage
+from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField,NavButton
 from pytubefix import YouTube
 import os
 import subprocess
@@ -27,10 +27,26 @@ def downloadMp3(url, name):
     subprocess.run(command, check=True)
     os.remove(downloadedFile)
 
+    linkTextField.value = ""
+    nameTextField.value = ""
 
-# PUT FUNCTIONS HERE
+    linkTextField.update()
+    nameTextField.update()
 
-def HomeContent():
+
+def HomeContent(filePicker: ft.FilePicker):
+    def submitImage(e):
+        if e.files:
+            playlistImage.src = e.files[0].path
+            playlistImage.update()
+    
+    def openFilePicker(e):
+        filePicker.pick_files()
+
+    filePicker.on_result = submitImage
+
+    global linkTextField,nameTextField,playlistImage
+    playlistImage = ft.Image(width=150,height=150,src="upload.png")
     linkTextField = TextField("Enter youtube link.",appWidth)
     nameTextField = TextField("Enter name for the downloaded file.",appWidth)
     playlistNameTextField = TextField("Playlist name",appWidth-200)
@@ -50,7 +66,10 @@ def HomeContent():
                 ft.Row(
                     width=appWidth,
                     controls=[
-                        playlistImage(None),
+                        ft.Container(
+                            content=playlistImage,
+                            on_click= openFilePicker
+                        ),
                         ft.Column(
                             controls=[
                                 playlistNameTextField,
