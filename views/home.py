@@ -5,27 +5,37 @@ import os
 import subprocess
 
 def downloadMp3(url, name):
-    yt = YouTube(url)
-    audioStream = yt.streams.filter(only_audio=True).first()
-    downloadedFile = audioStream.download(output_path="assets/songBank")
+    if (linkTextField.value and nameTextField.value):
+        try:
+            yt = YouTube(url)
+            audioStream = yt.streams.filter(only_audio=True).first()
+            downloadedFile = audioStream.download(output_path="assets/songBank")
+            
+            # DOWNLOAD THE FILE AS MP3 (NOT AS AN MP3 THOUGH)
+            mp3_filename = os.path.join("assets/songBank", f"{name}.mp3")
+            
+            # FFMPEG Conversion to MP3
+            command = [
+                "ffmpeg",
+                "-y",               # Overwrite output file if it exists
+                "-i", downloadedFile,
+                "-vn",              # Disable video
+                "-ar", "44100",     # Set audio sampling rate
+                "-ac", "2",         # Set number of audio channels
+                "-b:a", "192k",     # Set audio bitrate
+                mp3_filename
+            ]
+            
+            subprocess.run(command, check=True)
+            os.remove(downloadedFile)
+        except Exception as e:
+            songStatusText.value = e
+            songStatusText.update()
+
     
-    # DOWNLOAD THE FILE AS MP3 (NOT AS AN MP3 THOUGH)
-    mp3_filename = os.path.join("assets/songBank", f"{name}.mp3")
-    
-    # FFMPEG Conversion to MP3
-    command = [
-        "ffmpeg",
-        "-y",               # Overwrite output file if it exists
-        "-i", downloadedFile,
-        "-vn",              # Disable video
-        "-ar", "44100",     # Set audio sampling rate
-        "-ac", "2",         # Set number of audio channels
-        "-b:a", "192k",     # Set audio bitrate
-        mp3_filename
-    ]
-    
-    subprocess.run(command, check=True)
-    os.remove(downloadedFile)
+    else:
+        songStatusText.value = "Something went wrong, try again."
+        songStatusText.update()
 
     linkTextField.value = ""
     nameTextField.value = ""
@@ -45,7 +55,8 @@ def HomeContent(filePicker: ft.FilePicker):
 
     filePicker.on_result = submitImage
 
-    global linkTextField,nameTextField,playlistImage
+    global linkTextField,nameTextField,playlistImage,songStatusText
+    songStatusText = ft.Text("",width=350)
     playlistImage = ft.Image(width=150,height=150,src="upload.png")
     linkTextField = TextField("Enter youtube link.",appWidth)
     nameTextField = TextField("Enter name for the downloaded file.",appWidth)
@@ -59,7 +70,12 @@ def HomeContent(filePicker: ft.FilePicker):
                 ft.Divider(thickness=2,height=4),
                 linkTextField,
                 nameTextField,
-                ElevatedButton("Save Song",125, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                ft.Row(
+                    controls=[
+                        ElevatedButton("Save Song",125, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                        songStatusText
+                    ]
+                ),
                 ft.Divider(thickness=2,height=4),
                 ft.Text("Create Playlist",size=20,weight="bold"),
                 ft.Divider(thickness=2,height=4),
