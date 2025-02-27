@@ -28,11 +28,14 @@ def downloadMp3(url, name):
             
             subprocess.run(command, check=True)
             os.remove(downloadedFile)
-        except Exception as e:
-            songStatusText.value = e
+
+            songStatusText.value = "Success!"
             songStatusText.update()
 
-    
+        except Exception as e:
+            songStatusText.value = "Link not valid, try again."
+            songStatusText.update()
+     
     else:
         songStatusText.value = "Something went wrong, try again."
         songStatusText.update()
@@ -42,7 +45,6 @@ def downloadMp3(url, name):
 
     linkTextField.update()
     nameTextField.update()
-
 
 def HomeContent(filePicker: ft.FilePicker):
     def submitImage(e):
