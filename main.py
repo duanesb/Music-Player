@@ -10,6 +10,10 @@ def filePickerResult(e:ft.FilePickerResultEvent):
     if e.files:
         path = e.files[0].path
 
+def handleSongPickerResult(e):
+    if e.files:
+        paths = [file.path for file in e.files]
+
 def main(page: ft.Page):
     # CONFIG
     page.title = "Music Player"
@@ -18,14 +22,16 @@ def main(page: ft.Page):
 
     # FILE PICKER
     filePicker = ft.FilePicker(on_result=filePickerResult)
+    songFilePicker = ft.FilePicker(on_result=handleSongPickerResult)
     page.overlay.append(filePicker)
+    page.overlay.append(songFilePicker)
 
     # ROUTING
     def route_change(route):
         page.views.clear()
         match(page.route):
             case _:
-                View("/home",HomeContent(filePicker)).set(page)
+                View("/home",HomeContent(filePicker,songFilePicker)).set(page)
         
         page.update()
     

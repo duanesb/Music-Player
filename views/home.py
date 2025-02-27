@@ -46,7 +46,7 @@ def downloadMp3(url, name):
     linkTextField.update()
     nameTextField.update()
 
-def HomeContent(filePicker: ft.FilePicker):
+def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
     def submitImage(e):
         if e.files:
             playlistImage.src = e.files[0].path
@@ -55,15 +55,26 @@ def HomeContent(filePicker: ft.FilePicker):
     def openFilePicker(e):
         filePicker.pick_files()
 
-    filePicker.on_result = submitImage
+    def openSongPicker(e):
+        songFilePicker.pick_files(allow_multiple=True)
+    
+    def setSongs(e):
+        if e.files:
+            songs = [song.name for song in e.files]
+            playlistText.value = f"Songs: {", ".join(songs)}"
+            playlistText.update()
 
-    global linkTextField,nameTextField,playlistImage,songStatusText
+    filePicker.on_result = submitImage
+    songFilePicker.on_result = setSongs
+
+    global linkTextField,nameTextField,playlistImage,songStatusText, playlistFiles
+    playlistFiles = []
     songStatusText = ft.Text("",width=350)
     playlistImage = ft.Image(width=150,height=150,src="upload.png")
     linkTextField = TextField("Enter youtube link.",appWidth)
     nameTextField = TextField("Enter name for the downloaded file.",appWidth)
     playlistNameTextField = TextField("Playlist name",appWidth-200)
-    playlistText = ft.Text("Songs: ",size=12)
+    playlistText = ft.Text("Songs: ",size=12,width=300)
     content = ft.Container(width=appWidth,height=appHeight,
         content=ft.Column(
             controls=[
@@ -93,7 +104,7 @@ def HomeContent(filePicker: ft.FilePicker):
                                 playlistNameTextField,
                                 ft.Row(
                                     controls=[
-                                        ElevatedButton("Select Songs",140,None),
+                                        ElevatedButton("Select Songs",140,openSongPicker),
                                         ElevatedButton("Create Playlist",150,None)
                                     ],
                                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
