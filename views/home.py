@@ -63,6 +63,8 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
             songs = [song.name for song in e.files]
             playlistText.value = f"Songs: {", ".join(songs)}"
             playlistText.update()
+            playlistFiles = [song.path for song in e.files]
+            print(playlistFiles)
 
     filePicker.on_result = submitImage
     songFilePicker.on_result = setSongs
@@ -116,7 +118,7 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                     ]
                 ),
                 ft.Divider(thickness=2,height=4),
-                ft.Row(width=appWidth,controls=[NavButton("View Playlists",None,appWidth/1.05)],alignment=ft.MainAxisAlignment.CENTER)
+                ft.Row(width=appWidth,controls=[NavButton("View Playlists",lambda _: _.page.go("/playlists"),appWidth/1.05)],alignment=ft.MainAxisAlignment.CENTER)
             ]
         )
     )
