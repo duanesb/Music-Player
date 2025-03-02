@@ -3,6 +3,7 @@ from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField,NavBut
 from pytubefix import YouTube
 import os
 import subprocess
+playlists = []
 
 def downloadMp3(url, name):
     if (linkTextField.value and nameTextField.value):
@@ -82,20 +83,16 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
             playlistImage.update()
             playlistNameTextField.update()
             playlistText.update()
-        
-        print(playlists)
-    
-
+            
     filePicker.on_result = submitImage
     songFilePicker.on_result = setSongs
 
     global linkTextField,nameTextField,playlistImage,songStatusText, playlistFiles, playlists,playlistText
-    playlists = []
     playlistFiles = []
-    songStatusText = ft.Text("",width=350)
+    songStatusText = ft.Text("",width=215)
     playlistImage = ft.Image(width=150,height=150,src="upload.png")
     linkTextField = TextField("Enter youtube link.",appWidth)
-    nameTextField = TextField("Enter name for the downloaded file.",appWidth)
+    nameTextField = TextField("Downloaded file name.",appWidth)
     playlistNameTextField = TextField("Playlist name",appWidth-200)
     playlistText = ft.Text("Songs: ",size=12,width=300)
     content = ft.Container(width=appWidth,height=appHeight,
@@ -108,7 +105,8 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                 nameTextField,
                 ft.Row(
                     controls=[
-                        ElevatedButton("Save Song",125, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                        ElevatedButton("Download Song",135, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                        ElevatedButton("Upload Song",125,None),
                         songStatusText
                     ]
                 ),
@@ -139,7 +137,12 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                     ]
                 ),
                 ft.Divider(thickness=2,height=4),
-                ft.Row(width=appWidth,controls=[NavButton("View Playlists",lambda _: _.page.go("/playlists"),appWidth/1.05)],alignment=ft.MainAxisAlignment.CENTER)
+                ft.Row(
+                    controls=[
+                        NavButton("View Playlists",lambda _: _.page.go("/playlists"),appWidth/2.15),
+                        NavButton("View Song Bank",lambda _: _.page.go("/songViewer"),appWidth/2.15),
+                    ]
+                )
             ]
         )
     )

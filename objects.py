@@ -2,7 +2,7 @@ import flet as ft
 
 global appWidth, appHeight, baseColor
 appWidth = 500
-appHeight = 800
+appHeight = 600
 baseColor = "#1b1c1f"
 
 class View(ft.View):
