@@ -59,17 +59,38 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
         songFilePicker.pick_files(allow_multiple=True)
     
     def setSongs(e):
+        global playlistFiles
         if e.files:
             songs = [song.name for song in e.files]
             playlistText.value = f"Songs: {", ".join(songs)}"
             playlistText.update()
             playlistFiles = [song.path for song in e.files]
-            print(playlistFiles)
+    
+    def createPlaylist(e):
+        global playlistFiles,playlists,playlistText
+        if len(playlistFiles) > 0 and playlistImage.src != "upload.png" and playlistNameTextField.value != "":
+            playlists.append({
+                "name":playlistNameTextField.value,
+                "src": playlistImage.src,
+                "songs":playlistFiles
+            })
+            playlistImage.src = "upload.png"
+            playlistNameTextField.value = ""
+            playlistText.value = "Songs:"
+            playlistFiles = []
+
+            playlistImage.update()
+            playlistNameTextField.update()
+            playlistText.update()
+        
+        print(playlists)
+    
 
     filePicker.on_result = submitImage
     songFilePicker.on_result = setSongs
 
-    global linkTextField,nameTextField,playlistImage,songStatusText, playlistFiles
+    global linkTextField,nameTextField,playlistImage,songStatusText, playlistFiles, playlists,playlistText
+    playlists = []
     playlistFiles = []
     songStatusText = ft.Text("",width=350)
     playlistImage = ft.Image(width=150,height=150,src="upload.png")
@@ -107,7 +128,7 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                                 ft.Row(
                                     controls=[
                                         ElevatedButton("Select Songs",140,openSongPicker),
-                                        ElevatedButton("Create Playlist",150,None)
+                                        ElevatedButton("Create Playlist",150,createPlaylist)
                                     ],
                                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                                 ),
