@@ -56,3 +56,18 @@ class NavButton(ft.ElevatedButton):
             side=ft.BorderSide(width=3,color="#bd952a")
         )
         self.on_click = function
+
+class ActionButton(ft.ElevatedButton):
+    def __init__(self,text,function,width):
+        super().__init__()
+        self.height=30
+        self.width=width
+        self.text=text
+        self.color="black"
+        self.style=ft.ButtonStyle(
+            text_style=ft.TextStyle(size=12,weight="bold"),
+            bgcolor="#bfbfbf",
+            shape=ft.RoundedRectangleBorder(radius=4),
+            side=ft.BorderSide(width=3,color="#ababab")
+        )
+        self.on_click = function
