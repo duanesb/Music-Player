@@ -1,16 +1,39 @@
 import flet as ft
-from objects import appWidth,appHeight,NavButton,ElevatedButton
-from views.home import playlists
 import os
+from pygame import mixer
+from objects import appWidth, appHeight, NavButton, ElevatedButton
+mixer.init()
+
+def PlaySong(song_list, index=0):
+    if index < len(song_list):
+        song_path = song_list[index]
+
+        def play_next():
+            mixer.music.stop()
+            PlaySong(song_list, index + 1)
+
+        mixer.music.load(song_path)
+        mixer.music.set_volume(1)
+        mixer.music.play()
+        mixer.music.set_endevent(ft.FLET_EVENT)
+
+        ft.app.subscribe_event(ft.FLET_EVENT, lambda _: play_next())
+
+# Function to Pause
+def PauseSong():
+    mixer.music.pause()
+
+
+
 
 def PlaylistsContent():
     playlistPath = "assets/playlistBank"
     information = [
         {
             "name": folder,
-            "img": os.listdir(os.path.join(playlistPath,folder,"metadata"))[0],
+            "img": os.path.join(playlistPath, folder, "metadata", os.listdir(os.path.join(playlistPath, folder, "metadata"))[0]),
             "songs": [
-                song for song in os.listdir(os.path.join(playlistPath, folder))
+                os.path.join(playlistPath, folder, song) for song in os.listdir(os.path.join(playlistPath, folder))
                 if song.endswith(".mp3")
             ]
         } 
@@ -18,24 +41,25 @@ def PlaylistsContent():
         if os.path.isdir(os.path.join(playlistPath, folder))
     ]
 
-    playlistContainer = ft.Column(width=appWidth,height=appHeight-190,
+    playlistContainer = ft.Column(
+        width=appWidth, height=appHeight-190,
         controls=[
-            ft.Container( # PLAYLIST
-                content = ft.Row(
-                    controls= [
-                        ft.Container( # PLAYLIST NAME AND IMAGE
-                            width=appWidth/3.5, height=appWidth/3.5+30,bgcolor="#2d2e33",
+            ft.Container(  # PLAYLIST
+                content=ft.Row(
+                    controls=[
+                        ft.Container(  # PLAYLIST NAME AND IMAGE
+                            width=appWidth / 3.5, height=appWidth / 3.5 + 30, bgcolor="#2d2e33",
                             border_radius=ft.border_radius.vertical(top=5),
                             content=ft.Column(
                                 controls=[
-                                    ft.Text(playlist["name"],size=14,width=appWidth/3.5,text_align=ft.TextAlign.CENTER),
-                                    ft.Image(playlist["img"],width=appWidth/3.5,height=appWidth/3.5)
+                                    ft.Text(playlist["name"], size=14, width=appWidth / 3.5, text_align=ft.TextAlign.CENTER),
+                                    ft.Image(playlist["img"], width=appWidth / 3.5, height=appWidth / 3.5)
                                 ],
                                 spacing=4,
                                 alignment=ft.MainAxisAlignment.END
                             )
                         ),
-                        ft.DataTable( # SONG AND ACTIONS
+                        ft.DataTable(  # SONG LIST
                             columns=[
                                 ft.DataColumn(ft.Text("Song Name")),
                                 ft.DataColumn(ft.Text("Action"))
@@ -43,17 +67,17 @@ def PlaylistsContent():
                             rows=[
                                 ft.DataRow(
                                     cells=[
-                                        ft.DataCell(ft.Text(song[:-4],size=10)),
-                                        ft.DataCell(ft.ElevatedButton("Remove",height=20))
+                                        ft.DataCell(ft.Text(os.path.basename(song)[:-4], size=10)),
+                                        ft.DataCell(ft.ElevatedButton("Remove", height=20))
                                     ]
-                                )  for song in playlist["songs"]
+                                ) for song in playlist["songs"]
                             ],
-                            column_spacing=0,width=200
+                            column_spacing=0, width=200
                         ),
-                        ft.Column(
+                        ft.Column(  # PLAY AND PAUSE BUTTONS
                             controls=[
-                                ElevatedButton("Play",100,None),
-                                ElevatedButton("Pause",100,None)
+                                ElevatedButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
+                                ElevatedButton("Pause", 100, lambda _: PauseSong())
                             ]
                         )
                     ]
@@ -63,15 +87,16 @@ def PlaylistsContent():
         scroll=True
     )
 
-    content = ft.Container(width=appWidth,height=appHeight,
-        content = ft.Column(
+    content = ft.Container(
+        width=appWidth, height=appHeight,
+        content=ft.Column(
             controls=[
-                ft.Text("View Playlists",size=30,weight="bold"),
-                ft.Divider(thickness=2,height=4),
+                ft.Text("View Playlists", size=30, weight="bold"),
+                ft.Divider(thickness=2, height=4),
                 playlistContainer,
-                ft.Divider(thickness=2,height=4),
-                NavButton("Return Home",lambda _:_.page.go("/home"),appWidth)
+                ft.Divider(thickness=2, height=4),
+                NavButton("Return Home", lambda _: _.page.go("/home"), appWidth)
             ]
-        )        
+        )
     )
     return content
