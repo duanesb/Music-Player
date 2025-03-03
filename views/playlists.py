@@ -43,7 +43,7 @@ def PlaylistsContent():
     information = [
         {
             "name": folder,
-            "img": os.path.join(playlistPath, folder, "metadata", os.listdir(os.path.join(playlistPath, folder, "metadata"))[0]),
+            "img": os.path.abspath(os.path.join(playlistPath, folder, "metadata", os.listdir(os.path.join(playlistPath, folder, "metadata"))[0])),
             "songs": [
                 os.path.join(playlistPath, folder, song) for song in os.listdir(os.path.join(playlistPath, folder))
                 if song.endswith(".mp3")
