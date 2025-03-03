@@ -118,7 +118,6 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                 ft.Row(
                     controls=[
                         ElevatedButton("Download Song",135, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
-                        ElevatedButton("Upload Song",125,None),
                         songStatusText
                     ]
                 ),
