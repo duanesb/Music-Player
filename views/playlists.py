@@ -44,11 +44,17 @@ def PlaylistsContent():
                                 ft.DataRow(
                                     cells=[
                                         ft.DataCell(ft.Text(song[:-4],size=10)),
-                                        ft.DataCell(ft.ElevatedButton("Remove",height=15))
+                                        ft.DataCell(ft.ElevatedButton("Remove",height=20))
                                     ]
                                 )  for song in playlist["songs"]
                             ],
                             column_spacing=0
+                        ),
+                        ft.Column(
+                            controls=[
+                                ElevatedButton("Play Playlist",100),
+                                ElevatedButton("Pause",100)
+                            ]
                         )
                     ]
                 )
@@ -56,6 +62,7 @@ def PlaylistsContent():
         ],
         scroll=True
     )
+
     content = ft.Container(width=appWidth,height=appHeight,
         content = ft.Column(
             controls=[
