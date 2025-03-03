@@ -48,12 +48,12 @@ def PlaylistsContent():
                                     ]
                                 )  for song in playlist["songs"]
                             ],
-                            column_spacing=0
+                            column_spacing=0,width=200
                         ),
                         ft.Column(
                             controls=[
-                                ElevatedButton("Play Playlist",100),
-                                ElevatedButton("Pause",100)
+                                ElevatedButton("Play",100,None),
+                                ElevatedButton("Pause",100,None)
                             ]
                         )
                     ]

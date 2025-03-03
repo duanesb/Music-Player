@@ -117,7 +117,7 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                 nameTextField,
                 ft.Row(
                     controls=[
-                        ElevatedButton("Add to Songbank",135, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                        ElevatedButton("Add to Songbank",160, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
                         songStatusText
                     ]
                 ),
