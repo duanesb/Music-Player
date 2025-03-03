@@ -1,7 +1,7 @@
 import flet as ft
 import os
 from pygame import mixer
-from objects import appWidth, appHeight, NavButton, ElevatedButton
+from objects import appWidth, appHeight, NavButton, ElevatedButton, ActionButton
 
 mixer.init()
 
@@ -88,11 +88,11 @@ def PlaylistsContent():
                         ),
                         ft.Column(  # PLAY, PAUSE, UNPAUSE, STOP, AND SKIP BUTTONS
                             controls=[
-                                ElevatedButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
-                                ElevatedButton("Pause", 100, lambda _: PauseSong()),
-                                ElevatedButton("Unpause", 100, lambda _: UnpauseSong()),
-                                ElevatedButton("Stop", 100, lambda _: StopSong()),
-                                ElevatedButton("Skip", 100, lambda _: SkipSong(playlist["songs"], 0))  # Skip button
+                                ActionButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
+                                ActionButton("Pause", 100, lambda _: PauseSong()),
+                                ActionButton("Unpause", 100, lambda _: UnpauseSong()),
+                                ActionButton("Stop", 100, lambda _: StopSong()),
+                                ActionButton("Skip", 100, lambda _: SkipSong(playlist["songs"], 0))  # Skip button
                             ]
                         )
                     ]
