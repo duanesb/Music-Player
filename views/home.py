@@ -3,6 +3,7 @@ from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField,NavBut
 from pytubefix import YouTube
 import os
 import subprocess
+import shutil
 playlists = []
 
 def downloadMp3(url, name):
@@ -57,7 +58,11 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
         filePicker.pick_files()
 
     def openSongPicker(e):
-        songFilePicker.pick_files(allow_multiple=True)
+        songFilePicker.pick_files(
+            allow_multiple=True,
+            file_type=ft.FilePickerFileType.CUSTOM,
+            allowed_extensions=["mp3"]
+        )
     
     def setSongs(e):
         global playlistFiles
@@ -75,6 +80,13 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                 "src": playlistImage.src,
                 "songs":playlistFiles
             })
+            path = f"assets/playlistBank/{playlistNameTextField.value}"
+            metaPath = f"{path}/metadata"
+            os.makedirs(path)
+            os.makedirs(metaPath)
+            shutil.copy(playlistImage.src,metaPath)
+            for i in playlistFiles:
+                shutil.copy(i,path)
             playlistImage.src = "upload.png"
             playlistNameTextField.value = ""
             playlistText.value = "Songs:"

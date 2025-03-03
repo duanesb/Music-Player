@@ -1,10 +1,9 @@
 import flet as ft
-from objects import appWidth,appHeight,NavButton
+from objects import appWidth,appHeight,NavButton,ElevatedButton
 from views.home import playlists
 
-playlists = [{"name":"test","src":"upload.png"},{"name":"test","src":"upload.png"},{"name":"test","src":"upload.png"},{"name":"test","src":"upload.png"},]
 def PlaylistsContent(): 
-    playlistContainer = ft.Container(width=appWidth,height=appHeight-190,
+    playlistContainer = ft.Container(width=appWidth,height=appHeight-190-50,
         content=ft.Row(
             controls=[
                 ft.Container(
@@ -31,6 +30,7 @@ def PlaylistsContent():
                 ft.Text("View Playlists",size=30,weight="bold"),
                 ft.Divider(thickness=2,height=4),
                 playlistContainer,
+                ElevatedButton("Upload Playlist",150,None),
                 ft.Divider(thickness=2,height=4),
                 NavButton("Return Home",lambda _:_.page.go("/home"),appWidth)
             ]
