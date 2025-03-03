@@ -2,15 +2,17 @@ import flet as ft
 import os
 from pygame import mixer
 from objects import appWidth, appHeight, NavButton, ElevatedButton
+
 mixer.init()
 
+# Function to play a song
 def PlaySong(song_list, index=0):
     if index < len(song_list):
         song_path = song_list[index]
 
         def play_next():
             mixer.music.stop()
-            PlaySong(song_list, index + 1)
+            PlaySong(song_list, index + 1)  # Move to the next song
 
         mixer.music.load(song_path)
         mixer.music.set_volume(1)
@@ -30,7 +32,11 @@ def UnpauseSong():
 # Function to Stop
 def StopSong():
     mixer.music.stop()
-
+    
+# Function to Skip to the next song
+def SkipSong(song_list, current_index):
+    mixer.music.stop()
+    PlaySong(song_list, current_index + 1)  # Move to the next song
 
 def PlaylistsContent():
     playlistPath = "assets/playlistBank"
@@ -80,12 +86,13 @@ def PlaylistsContent():
                             ],
                             column_spacing=0, width=200
                         ),
-                        ft.Column(  # PLAY, PAUSE, UNPAUSE, AND STOP BUTTONS
+                        ft.Column(  # PLAY, PAUSE, UNPAUSE, STOP, AND SKIP BUTTONS
                             controls=[
                                 ElevatedButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
                                 ElevatedButton("Pause", 100, lambda _: PauseSong()),
                                 ElevatedButton("Unpause", 100, lambda _: UnpauseSong()),
-                                ElevatedButton("Stop", 100, lambda _: StopSong())
+                                ElevatedButton("Stop", 100, lambda _: StopSong()),
+                                ElevatedButton("Skip", 100, lambda _: SkipSong(playlist["songs"], 0))  # Skip button
                             ]
                         )
                     ]
