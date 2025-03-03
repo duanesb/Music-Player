@@ -111,13 +111,13 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
         content=ft.Column(
             controls=[
                 ft.Text("Music Player",size=30,weight="bold"),
-                ft.Text("Save a Song",size=20,weight="bold"),
+                ft.Text("Add a Song to Songbank",size=20,weight="bold"),
                 ft.Divider(thickness=2,height=4),
                 linkTextField,
                 nameTextField,
                 ft.Row(
                     controls=[
-                        ElevatedButton("Download Song",135, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
+                        ElevatedButton("Add to Songbank",135, lambda _: downloadMp3(linkTextField.value,nameTextField.value)),
                         songStatusText
                     ]
                 ),
