@@ -1,60 +1,77 @@
 import flet as ft
 import os
+import threading
+import time
 from pygame import mixer
 from objects import appWidth, appHeight, NavButton, ElevatedButton, ActionButton
 
 mixer.init()
+current_index = 0
 
-# Function to play a song
-def PlaySong(song_list, index=0):
-    if index < len(song_list):
-        song_path = song_list[index]
+def PlaySong(song_list):
+    global current_index
+    # Reset to the beginning if we've reached the end
+    if current_index >= len(song_list):
+        current_index = 0
 
-        def play_next():
-            mixer.music.stop()
-            PlaySong(song_list, index + 1)  # Move to the next song
+    song_path = song_list[current_index]
 
-        mixer.music.load(song_path)
-        mixer.music.set_volume(1)
-        mixer.music.play()
-        mixer.music.set_endevent(ft.FLET_EVENT)
+    def monitor_song():
+        global current_index
+        # Wait until the current song finishes
+        while mixer.music.get_busy():
+            time.sleep(0.5)
+        # Increment and reset the index if necessary
+        current_index += 1
+        if current_index >= len(song_list):
+            current_index = 0  # Loop back to first song
+        PlaySong(song_list)
 
-        ft.app.subscribe_event(ft.FLET_EVENT, lambda _: play_next())
+    mixer.music.load(song_path)
+    mixer.music.set_volume(1)
+    mixer.music.play()
 
-# Function to Pause
+    threading.Thread(target=monitor_song, daemon=True).start()
+
 def PauseSong():
     mixer.music.pause()
 
-# Function to Unpause
 def UnpauseSong():
     mixer.music.unpause()
 
-# Function to Stop
 def StopSong():
     mixer.music.stop()
 
-# Function to Skip to the next song
-def SkipSong(song_list, current_index):
+def SkipSong(song_list):
+    global current_index
+    # Increment the index, and loop back if needed
+    current_index += 1
+    if current_index >= len(song_list):
+        current_index = 0  # Loop back to the first song
     mixer.music.stop()
-    PlaySong(song_list, current_index + 1)  # Move to the next song
+    PlaySong(song_list)
+    print("Current index:", current_index)
 
 def PlaylistsContent():
     playlistPath = "assets/playlistBank"
     information = [
         {
             "name": folder,
-            "img": os.path.abspath(os.path.join(playlistPath, folder, "metadata", os.listdir(os.path.join(playlistPath, folder, "metadata"))[0])),
+            "img": os.path.abspath(os.path.join(playlistPath, folder, "metadata",
+                                                   os.listdir(os.path.join(playlistPath, folder, "metadata"))[0]))
+                   if os.listdir(os.path.join(playlistPath, folder, "metadata")) else "",
             "songs": [
-                os.path.join(playlistPath, folder, song) for song in os.listdir(os.path.join(playlistPath, folder))
+                os.path.join(playlistPath, folder, song)
+                for song in os.listdir(os.path.join(playlistPath, folder))
                 if song.endswith(".mp3")
             ]
-        } 
-        for folder in os.listdir(playlistPath) 
+        }
+        for folder in os.listdir(playlistPath)
         if os.path.isdir(os.path.join(playlistPath, folder))
     ]
 
     playlistContainer = ft.Column(
-        width=appWidth, height=appHeight-190,
+        width=appWidth, height=appHeight - 190,
         controls=[
             ft.Container(  # PLAYLIST
                 content=ft.Row(
@@ -64,8 +81,10 @@ def PlaylistsContent():
                             border_radius=ft.border_radius.vertical(top=5),
                             content=ft.Column(
                                 controls=[
-                                    ft.Text(playlist["name"], size=14, width=appWidth / 3.5, text_align=ft.TextAlign.CENTER),
-                                    ft.Image(playlist["img"], width=appWidth / 3.5, height=appWidth / 3.5)
+                                    ft.Text(playlist["name"], size=14, width=appWidth / 3.5,
+                                            text_align=ft.TextAlign.CENTER),
+                                    ft.Image(playlist["img"], width=appWidth / 3.5,
+                                             height=appWidth / 3.5) if playlist["img"] else None
                                 ],
                                 spacing=4,
                                 alignment=ft.MainAxisAlignment.END
@@ -92,14 +111,13 @@ def PlaylistsContent():
                                 ElevatedButton("Pause", 100, lambda _: PauseSong()),
                                 ElevatedButton("Unpause", 100, lambda _: UnpauseSong()),
                                 ElevatedButton("Stop", 100, lambda _: StopSong()),
-                                ElevatedButton("Skip", 100, lambda _, songs=playlist["songs"]: SkipSong(songs, 0))
-
-        
+                                ElevatedButton("Skip", 100, lambda _, songs=playlist["songs"]: SkipSong(songs))
                             ]
                         )
                     ]
                 )
-            ) for playlist in information
+            )
+            for playlist in information
         ],
         scroll=True
     )
