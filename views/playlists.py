@@ -23,7 +23,13 @@ def PlaySong(song_list, index=0):
 def PauseSong():
     mixer.music.pause()
 
+# Function to Unpause
+def UnpauseSong():
+    mixer.music.unpause()
 
+# Function to Stop
+def StopSong():
+    mixer.music.stop()
 
 
 def PlaylistsContent():
@@ -74,10 +80,12 @@ def PlaylistsContent():
                             ],
                             column_spacing=0, width=200
                         ),
-                        ft.Column(  # PLAY AND PAUSE BUTTONS
+                        ft.Column(  # PLAY, PAUSE, UNPAUSE, AND STOP BUTTONS
                             controls=[
                                 ElevatedButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
-                                ElevatedButton("Pause", 100, lambda _: PauseSong())
+                                ElevatedButton("Pause", 100, lambda _: PauseSong()),
+                                ElevatedButton("Unpause", 100, lambda _: UnpauseSong()),
+                                ElevatedButton("Stop", 100, lambda _: StopSong())
                             ]
                         )
                     ]
