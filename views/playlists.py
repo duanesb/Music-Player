@@ -32,7 +32,7 @@ def UnpauseSong():
 # Function to Stop
 def StopSong():
     mixer.music.stop()
-    
+
 # Function to Skip to the next song
 def SkipSong(song_list, current_index):
     mixer.music.stop()
@@ -88,11 +88,11 @@ def PlaylistsContent():
                         ),
                         ft.Column(  # PLAY, PAUSE, UNPAUSE, STOP, AND SKIP BUTTONS
                             controls=[
-                                ElevatedButton("Play", 100, lambda _: PlaySong(playlist["songs"])),
+                                ElevatedButton("Play", 100, lambda _, songs=playlist["songs"]: PlaySong(songs)),
                                 ElevatedButton("Pause", 100, lambda _: PauseSong()),
                                 ElevatedButton("Unpause", 100, lambda _: UnpauseSong()),
                                 ElevatedButton("Stop", 100, lambda _: StopSong()),
-                                ElevatedButton("Skip", 100, lambda _: SkipSong(playlist["songs"], 0))  # Skip button
+                                ElevatedButton("Skip", 100, lambda _, songs=playlist["songs"]: SkipSong(songs, 0))
                             ]
                         )
                     ]

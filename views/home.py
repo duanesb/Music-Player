@@ -1,45 +1,53 @@
 import flet as ft
-from objects import appWidth,appHeight,baseColor,ElevatedButton,TextField,NavButton
+from objects import appWidth, appHeight, baseColor, ElevatedButton, TextField, NavButton
 from pytubefix import YouTube
 import os
 import subprocess
 import shutil
+
 playlists = []
 
 def downloadMp3(url, name):
-    if (linkTextField.value and nameTextField.value):
+    if linkTextField.value and nameTextField.value:
         try:
             yt = YouTube(url)
             audioStream = yt.streams.filter(only_audio=True).first()
             downloadedFile = audioStream.download(output_path="assets/songBank")
-            
-            # DOWNLOAD THE FILE AS MP3 (NOT AS AN MP3 THOUGH)
+
+            # Ensure correct file extension (WebM or M4A)
+            if not downloadedFile.endswith((".webm", ".m4a", ".mp4")):
+                songStatusText.value = "Invalid format. Try a different video."
+                songStatusText.update()
+                return
+
+            # Convert to MP3 using ffmpeg
             mp3_filename = os.path.join("assets/songBank", f"{name}.mp3")
-            
-            # FFMPEG Conversion to MP3
             command = [
                 "ffmpeg",
-                "-y",               # Overwrite output file if it exists
+                "-y",                # Overwrite output file if it exists
                 "-i", downloadedFile,
-                "-vn",              # Disable video
-                "-ar", "44100",     # Set audio sampling rate
-                "-ac", "2",         # Set number of audio channels
-                "-b:a", "192k",     # Set audio bitrate
+                "-vn",               # Disable video
+                "-ar", "44100",      # Set audio sampling rate
+                "-ac", "2",          # Set number of audio channels
+                "-b:a", "192k",      # Set audio bitrate
+                "-f", "mp3",         # Force MP3 output
                 mp3_filename
             ]
-            
+
             subprocess.run(command, check=True)
+
+            # Remove the original file after conversion
             os.remove(downloadedFile)
 
-            songStatusText.value = "Success!"
+            songStatusText.value = "Download successful!"
             songStatusText.update()
 
         except Exception as e:
-            songStatusText.value = "Link not valid, try again."
+            songStatusText.value = f"Error: {str(e)}"
             songStatusText.update()
-     
+
     else:
-        songStatusText.value = "Something went wrong, try again."
+        songStatusText.value = "Please enter a valid link and name."
         songStatusText.update()
 
     linkTextField.value = ""
@@ -47,6 +55,7 @@ def downloadMp3(url, name):
 
     linkTextField.update()
     nameTextField.update()
+
 
 def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
     def submitImage(e):
