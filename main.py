@@ -2,7 +2,7 @@ import flet as ft
 import flet_audio as fta
 from objects import appWidth,appHeight,baseColor,View
 from views.home import HomeContent
-from views.playlists import PlaylistsContent, globalAudio
+from views.playlists import PlaylistsContent, globalAudio #! Included the audio object created in playlist view to add it to the page overlay
 from views.songViewer import SongViewerContent
 import os
 import certifi

@@ -42,16 +42,16 @@ def PlaySong(song_list):
 
 def PauseSong():
     # mixer.music.pause()
-    globalAudio.pause() 
+    globalAudio.pause() #! Mixer replacement
 
 def UnpauseSong():
     # mixer.music.unpause()
-    globalAudio.resume()
+    globalAudio.resume() #! Mixer replacement
 
 def StopSong():
     # mixer.music.stop()
     globalAudio.seek(0)
-    globalAudio.pause()
+    globalAudio.pause() #! Mixer replacement
 
 def SkipSong(song_list):
     global current_index
@@ -61,7 +61,7 @@ def SkipSong(song_list):
         current_index = 0  # Loop back to the first song
     # mixer.music.stop()
     globalAudio.seek(0)
-    globalAudio.pause()
+    globalAudio.pause() #! Mixer replacement
     
     PlaySong(song_list)
     print("Current index:", current_index)
