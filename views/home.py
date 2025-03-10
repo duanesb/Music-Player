@@ -160,7 +160,6 @@ def HomeContent(filePicker: ft.FilePicker, songFilePicker: ft.FilePicker):
                 ft.Row(
                     controls=[
                         NavButton("View Playlists",lambda _: _.page.go("/playlists"),appWidth/2.15),
-                        NavButton("View Song Bank",lambda _: _.page.go("/songViewer"),appWidth/2.15),
                     ]
                 )
             ]

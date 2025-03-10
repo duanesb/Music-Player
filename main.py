@@ -2,7 +2,6 @@ import flet as ft
 from objects import appWidth,appHeight,baseColor,View
 from views.home import HomeContent
 from views.playlists import PlaylistsContent
-from views.songViewer import SongViewerContent
 import os
 import certifi
 
@@ -32,8 +31,6 @@ def main(page: ft.Page):
     def route_change(route):
         page.views.clear()
         match(page.route):
-            case "/songViewer":
-                View("/songViewer",SongViewerContent()).set(page)
             case "/playlists":
                 View("/playlists",PlaylistsContent()).set(page)
             case _:
