@@ -3,6 +3,7 @@ import os
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # import threading
 # import time
 # from pygame import mixer #! Not necessary anymore
@@ -16,10 +17,13 @@ import time
 >>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
 =======
 >>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
+=======
+>>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
 from pygame import mixer
 from objects import appWidth, appHeight, NavButton, ElevatedButton, ActionButton
 
 mixer.init()
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 48fed34 (Fixes)
@@ -101,6 +105,25 @@ def PlaySong(song_list, index=0):
         ft.app.subscribe_event(ft.FLET_EVENT, lambda _: play_next())
 
 >>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
+=======
+
+# Function to play a song
+def PlaySong(song_list, index=0):
+    if index < len(song_list):
+        song_path = song_list[index]
+
+        def play_next():
+            mixer.music.stop()
+            PlaySong(song_list, index + 1)  # Move to the next song
+
+        mixer.music.load(song_path)
+        mixer.music.set_volume(1)
+        mixer.music.play()
+        mixer.music.set_endevent(ft.FLET_EVENT)
+
+        ft.app.subscribe_event(ft.FLET_EVENT, lambda _: play_next())
+
+>>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
 # Function to Pause
 def PauseSong():
     mixer.music.pause()
@@ -114,6 +137,7 @@ def StopSong():
     mixer.music.stop()
 >>>>>>> parent of 48fed34 (Fixes)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 def SkipSong(song_list):
@@ -130,6 +154,10 @@ def SkipSong(song_list):
     PlaySong(song_list)
     print("Current index:", current_index)
 =======
+=======
+# Function to Skip to the next song
+def SkipSong(song_list, current_index):
+>>>>>>> parent of 62ae30c (FINALLY BRO (fixed skipping))
 =======
 # Function to Skip to the next song
 def SkipSong(song_list, current_index):
